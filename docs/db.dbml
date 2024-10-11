@@ -1,0 +1,107 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Customer {
+    id INTEGER [primary key]
+    first_name VARCHAR(50) 
+    last_name VARCHAR(50) 
+    email VARCHAR(100) 
+    }
+
+Table Insurance {
+    id INTEGER [primary key]
+    vehicle_id INTEGER 
+    provider_name VARCHAR(100) 
+    insurance_start_date DATETIME 
+    insurance_end_date DATETIME 
+    }
+
+Table Vehicle {
+    id INTEGER [primary key]
+    make VARCHAR(50) 
+    model VARCHAR(50) 
+    year INTEGER 
+    price FLOAT 
+    }
+
+Table Inventory {
+    id INTEGER [primary key]
+    vehicle_id INTEGER 
+    quantity INTEGER 
+    supplier_id INTEGER 
+    }
+
+Table Supplier {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    contact_email VARCHAR(100) 
+    }
+
+Table Payment {
+    id INTEGER [primary key]
+    sale_id INTEGER 
+    payment_date DATETIME 
+    amount FLOAT 
+    }
+
+Table Sale {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    vehicle_id INTEGER 
+    salesperson_id INTEGER 
+    sale_date DATETIME 
+    sale_price FLOAT 
+    }
+
+Table Salesperson {
+    id INTEGER [primary key]
+    first_name VARCHAR(50) 
+    last_name VARCHAR(50) 
+    hire_date DATETIME 
+    }
+
+Table Service {
+    id INTEGER [primary key]
+    service_appointment_id INTEGER 
+    technician_id INTEGER 
+    service_date DATETIME 
+    service_cost FLOAT 
+    }
+
+Table ServiceAppointment {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    vehicle_id INTEGER 
+    appointment_date DATETIME 
+    service_notes VARCHAR(200) 
+    }
+
+Table ServiceTechnician {
+    id INTEGER [primary key]
+    first_name VARCHAR(50) 
+    last_name VARCHAR(50) 
+    hire_date DATETIME 
+    }
+
+Table Warranty {
+    id INTEGER [primary key]
+    vehicle_id INTEGER 
+    warranty_start_date DATETIME 
+    warranty_end_date DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: Insurance.(vehicle_id) < Vehicle.(id)
+    Ref: Inventory.(supplier_id) < Supplier.(id)
+    Ref: Inventory.(vehicle_id) < Vehicle.(id)
+    Ref: Payment.(sale_id) < Sale.(id)
+    Ref: Sale.(customer_id) < Customer.(id)
+    Ref: Sale.(salesperson_id) < Salesperson.(id)
+    Ref: Sale.(vehicle_id) < Vehicle.(id)
+    Ref: Service.(service_appointment_id) < ServiceAppointment.(id)
+    Ref: Service.(technician_id) < ServiceTechnician.(id)
+    Ref: ServiceAppointment.(customer_id) < Customer.(id)
+    Ref: ServiceAppointment.(vehicle_id) < Vehicle.(id)
+    Ref: Warranty.(vehicle_id) < Vehicle.(id)

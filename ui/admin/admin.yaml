@@ -1,0 +1,368 @@
+about:
+  date: October 11, 2024 14:55:16
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Customer:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: email
+      required: true
+    - name: id
+    description: Table for storing customer details
+    info_list: Table for storing customer details
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - customer_id
+      name: ServiceAppointmentList
+      resource: ServiceAppointment
+    type: Customer
+    user_key: first_name
+  Insurance:
+    attributes:
+    - label: ' provider_name*'
+      name: provider_name
+      required: true
+      search: true
+      sort: true
+    - name: vehicle_id
+      required: true
+    - name: insurance_start_date
+      required: true
+    - name: insurance_end_date
+      required: true
+    - name: id
+    description: Table for recording vehicle insurance details
+    info_list: Table for recording vehicle insurance details
+    tab_groups:
+    - direction: toone
+      fks:
+      - vehicle_id
+      name: vehicle
+      resource: Vehicle
+    type: Insurance
+    user_key: provider_name
+  Inventory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: supplier_id
+      required: true
+    - name: vehicle_id
+      required: true
+    - name: quantity
+      required: true
+    description: Table for recording vehicle inventory
+    info_list: Table for recording vehicle inventory
+    tab_groups:
+    - direction: toone
+      fks:
+      - supplier_id
+      name: supplier
+      resource: Supplier
+    - direction: toone
+      fks:
+      - vehicle_id
+      name: vehicle
+      resource: Vehicle
+    type: Inventory
+    user_key: id
+  Payment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: sale_id
+      required: true
+    - name: payment_date
+    - name: amount
+      required: true
+    description: Table for recording payment transactions
+    info_list: Table for recording payment transactions
+    tab_groups:
+    - direction: toone
+      fks:
+      - sale_id
+      name: sale
+      resource: Sale
+    type: Payment
+    user_key: id
+  Sale:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: salesperson_id
+      required: true
+    - name: vehicle_id
+      required: true
+    - name: sale_date
+    - name: sale_price
+      required: true
+    description: Table for recording vehicle sales
+    info_list: Table for recording vehicle sales
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sale_id
+      name: PaymentList
+      resource: Payment
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - salesperson_id
+      name: salesperson
+      resource: Salesperson
+    - direction: toone
+      fks:
+      - vehicle_id
+      name: vehicle
+      resource: Vehicle
+    type: Sale
+    user_key: id
+  Salesperson:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: hire_date
+    - name: id
+    description: Table for storing salesperson details
+    info_list: Table for storing salesperson details
+    tab_groups:
+    - direction: tomany
+      fks:
+      - salesperson_id
+      name: SaleList
+      resource: Sale
+    type: Salesperson
+    user_key: first_name
+  Service:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_appointment_id
+      required: true
+    - name: technician_id
+      required: true
+    - name: service_date
+    - name: service_cost
+      required: true
+    description: Table for recording services performed
+    info_list: Table for recording services performed
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_appointment_id
+      name: service_appointment
+      resource: ServiceAppointment
+    - direction: toone
+      fks:
+      - technician_id
+      name: technician
+      resource: ServiceTechnician
+    type: Service
+    user_key: id
+  ServiceAppointment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: vehicle_id
+      required: true
+    - name: appointment_date
+      required: true
+    - name: service_notes
+    description: Table for recording service appointments
+    info_list: Table for recording service appointments
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_appointment_id
+      name: ServiceList
+      resource: Service
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - vehicle_id
+      name: vehicle
+      resource: Vehicle
+    type: ServiceAppointment
+    user_key: id
+  ServiceTechnician:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: hire_date
+    - name: id
+    description: Table for storing service technician details
+    info_list: Table for storing service technician details
+    tab_groups:
+    - direction: tomany
+      fks:
+      - technician_id
+      name: ServiceList
+      resource: Service
+    type: ServiceTechnician
+    user_key: first_name
+  Supplier:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: contact_email
+    - name: id
+    description: Table for storing vehicle supplier details
+    info_list: Table for storing vehicle supplier details
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supplier_id
+      name: InventoryList
+      resource: Inventory
+    type: Supplier
+    user_key: name
+  Vehicle:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: make
+      required: true
+    - name: model
+      required: true
+    - name: year
+      required: true
+    - name: price
+      required: true
+    description: Table for storing vehicle details
+    info_list: Table for storing vehicle details
+    tab_groups:
+    - direction: tomany
+      fks:
+      - vehicle_id
+      name: InsuranceList
+      resource: Insurance
+    - direction: tomany
+      fks:
+      - vehicle_id
+      name: InventoryList
+      resource: Inventory
+    - direction: tomany
+      fks:
+      - vehicle_id
+      name: SaleList
+      resource: Sale
+    - direction: tomany
+      fks:
+      - vehicle_id
+      name: ServiceAppointmentList
+      resource: ServiceAppointment
+    - direction: tomany
+      fks:
+      - vehicle_id
+      name: WarrantyList
+      resource: Warranty
+    type: Vehicle
+    user_key: id
+  Warranty:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: vehicle_id
+      required: true
+    - name: warranty_start_date
+      required: true
+    - name: warranty_end_date
+      required: true
+    description: Table for recording vehicle warranties
+    info_list: Table for recording vehicle warranties
+    tab_groups:
+    - direction: toone
+      fks:
+      - vehicle_id
+      name: vehicle
+      resource: Vehicle
+    type: Warranty
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
